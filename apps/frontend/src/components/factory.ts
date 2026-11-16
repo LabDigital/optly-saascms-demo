@@ -3,7 +3,11 @@ import { type ComponentFactory, DefaultComponentFactory, RichTextComponentDictio
 import cmsComponents from './cms'
 
 // Create the server factory, to be reused throughout the application
-export const factory : ComponentFactory = new DefaultComponentFactory()
+const defaultFactory = new DefaultComponentFactory()
+// Optimizely Graph now also returns "_ChangesetItem" as a base type. There is no component for it,
+// so ignore it when resolving components, the same way the other base contracts (_Item, _Content, ...) are.
+defaultFactory.ignoredContracts.push('changesetitem')
+export const factory : ComponentFactory = defaultFactory
 factory.registerAll(RichTextComponentDictionary)
 factory.registerAll(cmsComponents)
 
